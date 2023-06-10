@@ -3,6 +3,9 @@ import Table from "react-bootstrap/Table";
 import { fetchAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
 import ModalAddNew from "./ModalAddNew";
+import ModalEdit from "./ModalEdit";
+import _ from 'lodash';
+import ModalConfirm from "./ModalConfirm";
 
 const TableUsers = (props) => {
   const [users, setUsers] = useState([]);
@@ -10,9 +13,28 @@ const TableUsers = (props) => {
   const [totalPages, setTotalPages] = useState(0);
 
   const [isShowModalAddNew, setShowModalAddNew] = useState(false);
+  const [isShowModalEdit, setIsShowModalEdit] = useState(false);
+  const [isShowModalDelete, setIsShowModalDelete] = useState(false);
+  const [dataUserEdit, setDataUserEdit] = useState({});
+  const [dataUserDelete, setDataUserDelete] = useState({});
+
   const handleClose = () => {
     setShowModalAddNew(false);
+    setIsShowModalEdit(false);
+    setIsShowModalDelete(false)
   };
+
+  // fetch user
+
+  const getUserData = (data) => {
+    setDataUserEdit(data);
+    setIsShowModalEdit(true);
+  }
+
+  const handleDeleteUser = (user) => {
+    setDataUserDelete(user)
+    setIsShowModalDelete(true);
+  }
 
   useEffect(() => {
     getUsers(1);
@@ -20,7 +42,6 @@ const TableUsers = (props) => {
 
   const getUsers = async (page) => {
     let res = await fetchAllUser(page);
-    console.log(res);
     if (res && res.data) {
       setUsers(res.data);
       setTotalUsers(res.total);
@@ -28,14 +49,30 @@ const TableUsers = (props) => {
     }
   };
 
+
+  // paginate
   const handlePageClick = (event) => {
     getUsers(+event.selected + 1);
     //  Thêm dấu '+' ở đầu để convert sang kiểu number
   };
 
+
+  // update table
   const handleUpdateTable = (user) => {
     setUsers([user, ...users]);
   };
+
+  const handleEditUpdateFormModal = (user) => {
+    let cloneUsers = _.cloneDeep(users)
+    let index = users.findIndex(item => item.id == user.id);
+    cloneUsers[index].first_name = user.first_name;
+    setUsers(cloneUsers);
+  }
+
+  const handleDeleteUpdateConfirmModal = (id) => {
+    let cloneUsers = _.cloneDeep(users).filter(item => item.id != id)
+    setUsers(cloneUsers);
+  }
 
   return (
     <>
@@ -57,6 +94,7 @@ const TableUsers = (props) => {
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +107,10 @@ const TableUsers = (props) => {
                   <td>{item.email}</td>
                   <td>{item.first_name}</td>
                   <td>{item.last_name}</td>
+                  <td>
+                    <button className="btn btn-warning" onClick={() => getUserData(item)}>Edit</button>
+                    <button className="btn btn-danger mx-3" onClick={() => handleDeleteUser(item)}>Delete</button>
+                  </td>
                 </tr>
               );
             })}
@@ -93,6 +135,8 @@ const TableUsers = (props) => {
         activeClassName="active"
       />
       <ModalAddNew show={isShowModalAddNew} handleClose={handleClose} handleUpdateTable={handleUpdateTable}/>
+      <ModalEdit show={isShowModalEdit} dataUserEdit={dataUserEdit} handleClose={handleClose} handleEditUpdateFormModal={handleEditUpdateFormModal}/>
+      <ModalConfirm show={isShowModalDelete} handleClose={handleClose} dataUserDelete={dataUserDelete} handleDeleteUpdateConfirmModal={handleDeleteUpdateConfirmModal}/>
     </>
   );
 };
