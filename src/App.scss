@@ -18,6 +18,12 @@ code {
     align-items: center;
     justify-content: space-between;
   }
+
+  .group-buttons{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
 }
 
 .sort-header{
@@ -31,5 +37,24 @@ code {
       cursor: pointer;
       padding: 0 2px;
     }
+  }
+}
+
+.mrl{
+  &-2{
+    margin-left: 2px;
+  }
+  &-4{
+    margin-left: 4px;
+  }
+  &-6{
+    margin-left: 6px;
+  }
+}
+
+.flex{
+  &-algin-center{
+    display: flex ;
+    align-items: center ;
   }
 }
