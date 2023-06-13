@@ -24,6 +24,101 @@ code {
     gap: 10px;
     align-items: center;
   }
+
+  .login-container{
+    display: flex;
+    flex-direction: column;
+    margin: 0px auto;
+
+    .title{
+      text-align: center;
+      font-size: 25px;
+      font-weight: 600;
+      padding-block: 30px 10px;
+    }
+
+    input{
+      padding: 8px 5px;
+      outline: none;
+      margin-bottom: 7px;
+      border: 1px solid rgb(233, 233, 233);
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -o-border-radius: 3px;
+      background-color: rgb(239, 239, 239);
+      width: 100%;
+
+      &:hover{
+        background-color: rgb(244, 244, 244);
+      }
+    }
+
+    .input-with-icon{
+      position: relative;
+
+      i{
+        position: absolute;
+        top: 0.9rem;
+        right: 0.7rem;
+
+        &:hover{
+          cursor: pointer;
+        }
+      }
+    }
+
+    button{
+      padding: 10px;
+      outline: none;
+      border: unset;
+      background-color: rgb(239, 239, 239);
+      border-radius: 3px;
+      -webkit-border-radius: 3px;
+      -moz-border-radius: 3px;
+      -ms-border-radius: 3px;
+      -o-border-radius: 3px;
+      font-weight: 500;
+      margin-top: 15px;
+      color: rgb(143, 143, 143);
+
+      &:hover{
+        cursor: pointer;
+      }
+
+      &.active{
+        background-color: rgb(255, 57, 57);
+        color: #fff;
+      }
+
+      &.disable{
+        cursor: not-allowed;
+      }
+    }
+
+    button[disabled=disable], button:disabled {
+      cursor: not-allowed;
+    }
+
+    .back{
+      text-align: center;
+      margin-top: 20px;
+
+      &-btn-content{
+        text-decoration: none;
+
+        &:hover{
+          text-decoration: underline;
+        }
+
+        i{
+          font-size: 13px;
+        }
+      }
+    }
+
+  }
 }
 
 .sort-header{

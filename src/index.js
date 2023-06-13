@@ -8,11 +8,14 @@ import '@fortawesome/fontawesome-free/css/all.min.css';
 import '@fortawesome/fontawesome-free/css/fontawesome.css';
 import '@fortawesome/fontawesome-free/css/all.css';
 import { BrowserRouter } from 'react-router-dom';
+import UseContextApi from './customHooks/useContextApi';
 
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <UseContextApi>
+        <App />
+      </UseContextApi>
     </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
