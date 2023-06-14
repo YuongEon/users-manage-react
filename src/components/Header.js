@@ -10,7 +10,7 @@ import { GlobalContextApi } from "../customHooks/useContextApi";
 
 const Header = (props) => {
   let location = useLocation();
-  console.log(location.pathname);
+  
   const { userLogout } = useContext(GlobalContextApi);
 
   let user = JSON.parse(localStorage.getItem("user"));

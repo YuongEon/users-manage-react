@@ -14,7 +14,7 @@ code {
 
 .app-container{
   .table-top-header{
-    display: flex;
+    // display: flex;
     align-items: center;
     justify-content: space-between;
   }
@@ -152,4 +152,9 @@ code {
     display: flex ;
     align-items: center ;
   }
+}
+
+.customize-table{
+  overflow-x: scroll;
+  width: inherit;
 }

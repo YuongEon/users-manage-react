@@ -6,7 +6,6 @@ const PrivateRoutes = (props) => {
   const navigate = useNavigate()
 
   const user = JSON.parse(localStorage.getItem("user"));
-  console.log(user);
 
   if(!user || (!user && !user.auth)){
     return (
