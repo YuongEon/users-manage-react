@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Table from "react-bootstrap/Table";
 import { fetchAllUser } from "../services/UserService";
 import ReactPaginate from "react-paginate";
@@ -25,7 +25,8 @@ const TableUsers = (props) => {
   const [dataUserDelete, setDataUserDelete] = useState({});
   const [sortBy, setSortBy] = useState("asc");
   const [sortField, setSortField] = useState("id");
-  const [filterUsers, setfilterUsers] = useState([]);
+  const [query, setQuery] = useState("")
+  const [filterUsers, setFilterUsers] = useState([...users])
   const [userDataExport, setUserDataExport] = useState([]);
 
   const handleClose = () => {
@@ -49,6 +50,10 @@ const TableUsers = (props) => {
   useEffect(() => {
     getUsers(1);
   }, []);
+
+  useEffect(() => {
+    setFilterUsers(users)
+  }, [users])
 
   const getUsers = async (page) => {
     let res = await fetchAllUser(page);
@@ -91,14 +96,15 @@ const TableUsers = (props) => {
     setUsers(cloneUsers);
   };
 
+  console.log(users);
+  console.log(filterUsers);
   // search
-  const handleSearch = debounce((event) => {
-    let term = event.target.value;
-    let cloneUsers = _.cloneDeep(users);
-    if (term !== "") {
-      setUsers(cloneUsers.filter((item) => item.email.includes(`${term}`)));
+  const handleSearch = debounce((value) => {
+    console.log(value);
+    if(value !== ""){
+      setFilterUsers(users.filter(item => item.email.includes(value)))
     } else {
-      getUsers(1);
+      setFilterUsers(users)
     }
   }, 300);
 
@@ -211,7 +217,7 @@ const TableUsers = (props) => {
             type="text"
             className="form-control"
             placeholder="Search by email..."
-            onChange={(e) => handleSearch(e)}
+            onChange={(e) => handleSearch(e.target.value)}
           />
         </div>
       </div>
@@ -251,9 +257,9 @@ const TableUsers = (props) => {
             </tr>
           </thead>
           <tbody>
-            {users &&
-              users.length > 0 &&
-              users.map((item, index) => {
+            {filterUsers &&
+              filterUsers.length > 0 &&
+              filterUsers.map((item, index) => {
                 return (
                   <tr key={`user-${index}`}>
                     <td>{item.id}</td>
